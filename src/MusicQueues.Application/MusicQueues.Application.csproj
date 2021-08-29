@@ -8,4 +8,12 @@
       <ProjectReference Include="..\MusicQueues.Domain\MusicQueues.Domain.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="MediatR" Version="9.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Queues\Queries" />
+    </ItemGroup>
+
 </Project>

@@ -7,13 +7,15 @@ namespace MusicQueues.Domain.Entities
     {
         private MemberRole _role;
 
-        public QueueMember(MemberRole role)
+        public QueueMember(string reference, MemberRole role)
         {
             Id = Guid.NewGuid();
+            Reference = reference;
             _role = role;
         }
         
         public Guid Id { get; }
+        public string Reference { get; }
         public MemberRole Role => _role;
         
         public void UpdateRole(MemberRole role)
