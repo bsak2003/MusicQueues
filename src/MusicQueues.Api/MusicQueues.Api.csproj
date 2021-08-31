@@ -14,8 +14,4 @@
       <ProjectReference Include="..\MusicQueues.Infrastructure\MusicQueues.Infrastructure.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Controllers" />
-    </ItemGroup>
-
 </Project>

@@ -3,11 +3,11 @@ using MusicQueues.Application.Common.Interfaces;
 
 namespace MusicQueues.Api.Services
 {
-    public class CurrentUserService : ICurrentUserService
+    public class CurrentIdentityUserService : ICurrentUserService
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public CurrentUserService(IHttpContextAccessor httpContextAccessor)
+        public CurrentIdentityUserService(IHttpContextAccessor httpContextAccessor)
         {
             _httpContextAccessor = httpContextAccessor;
         }

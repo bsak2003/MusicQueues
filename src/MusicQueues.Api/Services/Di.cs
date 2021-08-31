@@ -8,7 +8,12 @@ namespace MusicQueues.Api.Services
         public static IServiceCollection AddApiServices(this IServiceCollection services)
         {
             services.AddHttpContextAccessor();
-            services.AddTransient<ICurrentUserService, CurrentUserService>();
+            // To use with Identity Framework
+            // services.AddTransient<ICurrentUserService, CurrentIdentityUserService>();
+            
+            // To use with Anonymous User Service
+            services.AddTransient<ICurrentUserService, CurrentAnonymousUserService>();
+            
             return services;
         }
     }
