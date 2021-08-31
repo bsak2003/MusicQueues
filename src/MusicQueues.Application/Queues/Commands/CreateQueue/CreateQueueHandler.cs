@@ -11,17 +11,20 @@ namespace MusicQueues.Application.Queues.Commands.CreateQueue
     public class CreateQueueHandler : IRequestHandler<CreateQueue, Guid>
     {
         private readonly ICurrentUserService _currentUserService;
+        private readonly IRepository<Queue> _queueRepository;
 
-        public CreateQueueHandler(ICurrentUserService currentUserService)
+        public CreateQueueHandler(ICurrentUserService currentUserService, IRepository<Queue> queueRepository)
         {
             _currentUserService = currentUserService;
+            _queueRepository = queueRepository;
         }
 
-        public Task<Guid> Handle(CreateQueue request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(CreateQueue request, CancellationToken cancellationToken)
         {
             var queue = new Queue(request.Platform);
             queue.AddMember(new QueueMember(_currentUserService.GetUserId(), MemberRole.Owner));
-            throw new NotImplementedException();
+            await _queueRepository.Create(queue);
+            return queue.Id;
         }
     }
 }
