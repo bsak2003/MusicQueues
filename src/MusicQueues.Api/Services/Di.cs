@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 using MusicQueues.Application.Common.Interfaces;
 
 namespace MusicQueues.Api.Services
@@ -13,8 +14,15 @@ namespace MusicQueues.Api.Services
             
             // To use with Anonymous User Service
             services.AddTransient<ICurrentUserService, CurrentAnonymousUserService>();
+            services.AddTransient<CurrentAnonymousUserService>();
             
             return services;
+        }
+
+        public static IApplicationBuilder UseApiServices(this IApplicationBuilder app)
+        {
+            app.UseMiddleware<CurrentAnonymousUserService>();
+            return app;
         }
     }
 }

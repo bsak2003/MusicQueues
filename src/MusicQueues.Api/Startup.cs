@@ -56,6 +56,8 @@ namespace MusicQueues.Api
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+
+            app.UseApiServices();
         }
     }
 }
