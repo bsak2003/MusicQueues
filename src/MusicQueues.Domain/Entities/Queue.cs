@@ -6,12 +6,12 @@ namespace MusicQueues.Domain.Entities
 {
     public class Queue
     {
-        private readonly List<QueueElement> _elements = new List<QueueElement>();
-        private readonly List<QueueMember> _members = new List<QueueMember>();
+        private readonly List<QueueElement> _elements = new();
+        private readonly List<QueueMember> _members = new();
         
         public Queue(Platform platform)
         {
-            Id = new Guid();
+            Id = Guid.NewGuid();
             Platform = platform;
         }
         

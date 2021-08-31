@@ -6,6 +6,10 @@ namespace MusicQueues.Application.Queues.Commands.CreateQueue
 {
     public class CreateQueue : IRequest<Guid>
     {
-        public Platform Platform { get; set; }
+        public CreateQueue(Platform platform)
+        {
+            Platform = platform;
+        }
+        public Platform Platform { get; }
     }
 }
