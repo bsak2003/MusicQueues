@@ -11,6 +11,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using MusicQueues.Api.Services;
+using MusicQueues.Application;
+using MusicQueues.Application.Common.Interfaces;
+using MusicQueues.Infrastructure;
 
 namespace MusicQueues.Api
 {
@@ -22,8 +26,7 @@ namespace MusicQueues.Api
         }
 
         public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
+        
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
@@ -31,9 +34,12 @@ namespace MusicQueues.Api
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MusicQueues.Api", Version = "v1" });
             });
+            
+            services.AddApplication();
+            services.AddInfrastructure();
+            services.AddApiServices();
         }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
