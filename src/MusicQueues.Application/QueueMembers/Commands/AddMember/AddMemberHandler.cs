@@ -21,7 +21,7 @@ namespace MusicQueues.Application.QueueMembers.Commands.AddMember
         public async Task<Unit> Handle(AddMember request, CancellationToken cancellationToken)
         {
             var queue = await _queueRepository.ReadById(request.QueueId);
-            queue.AddMember(new QueueMember(_currentUserService.GetUserId().ToString(), MemberRole.User));
+            queue.AddMember(new QueueMember(_currentUserService.GetUserId(), MemberRole.User));
             return Unit.Value;
         }
     }
