@@ -5,8 +5,9 @@ namespace MusicQueues.Application.QueueElements.Commands.AddElement
 {
     public class AddElement : IRequest<Guid>
     {
-        public AddElement(string reference, string title)
+        public AddElement(Guid queueId, string reference, string title)
         {
+            QueueId = queueId;
             Reference = reference;
             Title = title;
         }

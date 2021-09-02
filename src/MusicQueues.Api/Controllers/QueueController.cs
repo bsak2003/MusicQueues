@@ -59,7 +59,7 @@ namespace MusicQueues.Api.Controllers
         [HttpPost("{queueId:guid}/addSong")]
         public async Task AddSong(Guid queueId, SongModel model)
         {
-            await _mediator.Send(new AddElement(model.Reference, model.Title));
+            await _mediator.Send(new AddElement(queueId, model.Reference, model.Title));
         }
 
         [HttpDelete("{queueId:guid}/removeSong/{songId:guid}")]

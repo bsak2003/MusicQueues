@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using MusicQueues.Application.Common.Interfaces;
 
 namespace MusicQueues.Api.Services
 {
-    public class CurrentAnonymousUserService : ICurrentUserService, IMiddleware
+    public class CurrentAnonymousUserService : ICurrentUserService
     {
         public const string CookieName = "UserId";
         private readonly IHttpContextAccessor _httpContextAccessor;
@@ -17,17 +16,14 @@ namespace MusicQueues.Api.Services
 
         public string GetUserId()
         {
-            return _httpContextAccessor.HttpContext?.Request.Cookies[CookieName];
-        }
-
-        public async Task InvokeAsync(HttpContext context, RequestDelegate next)
-        {
-            if(!context.Request.Cookies.ContainsKey(CookieName))
+            if (_httpContextAccessor.HttpContext.Request.Cookies.ContainsKey(CookieName))
             {
-                context.Response.Cookies.Append(CookieName, Guid.NewGuid().ToString());
+                return _httpContextAccessor.HttpContext?.Request.Cookies[CookieName];
             }
 
-            await next(context);
+            var userId = Guid.NewGuid().ToString();
+            _httpContextAccessor.HttpContext.Response.Cookies.Append(CookieName, userId);
+            return userId;
         }
     }
 }

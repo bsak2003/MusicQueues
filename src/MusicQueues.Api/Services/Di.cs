@@ -14,14 +14,11 @@ namespace MusicQueues.Api.Services
             
             // To use with Anonymous User Service
             services.AddTransient<ICurrentUserService, CurrentAnonymousUserService>();
-            services.AddTransient<CurrentAnonymousUserService>();
-            
             return services;
         }
 
         public static IApplicationBuilder UseApiServices(this IApplicationBuilder app)
         {
-            app.UseMiddleware<CurrentAnonymousUserService>();
             return app;
         }
     }
