@@ -15,15 +15,37 @@ namespace MusicQueues.Domain.Entities
             Platform = platform;
         }
         
-        public readonly Guid Id;
-        public readonly Platform Platform;
+        public Guid Id { get; }
+        public Platform Platform { get; }
+        public string Title { get; private set; } = string.Empty;
+        public string Description { get; private set; } = string.Empty;
+        public IEnumerable<QueueElement> Elements => _elements;
+        public IEnumerable<QueueMember> Members => _members;
 
-        public IReadOnlyCollection<QueueElement> Elements => _elements;
-        public IReadOnlyCollection<QueueMember> Members => _members;
-        
-        public void AddElement(QueueElement element)
+        public void UpdateTitle(string title)
         {
-            _elements.Add(element);
+            Title = title;
+        }
+
+        public void UpdateDescription(string description)
+        {
+            Description = description;
+        }
+        
+        public void AddElement(QueueElement element, int index = -1)
+        {
+            if (index == -1)
+            {
+                index = _elements.Count - 1;
+            }
+
+            _elements.Insert(index, element);
+        }
+
+        public void MoveElement(QueueElement element, int index)
+        {
+            RemoveElement(element);
+            AddElement(element, index);
         }
 
         public void RemoveElement(QueueElement element)

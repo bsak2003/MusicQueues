@@ -9,16 +9,18 @@ namespace MusicQueues.Application.QueueElements.Commands.AddElement
 {
     public class AddElementHandler : IRequestHandler<AddElement, Guid>
     {
+        private readonly ICurrentUserService _currentUserService;
         private readonly IRepository<Queue> _queueRepository;
 
-        public AddElementHandler(IRepository<Queue> queueRepository)
+        public AddElementHandler(ICurrentUserService currentUserService, IRepository<Queue> queueRepository)
         {
+            _currentUserService = currentUserService;
             _queueRepository = queueRepository;
         }
         
         public async Task<Guid> Handle(AddElement request, CancellationToken cancellationToken)
         {
-            var element = new QueueElement(request.Reference, request.Title);
+            var element = new QueueElement(_currentUserService.GetUserId(), request.Reference, request.Title);
             var queue = await _queueRepository.ReadById(request.QueueId);
             queue.AddElement(element);
             await _queueRepository.Update(queue);

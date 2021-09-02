@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 using MusicQueues.Application.Common.Interfaces;
 
 namespace MusicQueues.Api.Services
@@ -12,9 +14,9 @@ namespace MusicQueues.Api.Services
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public string GetUserId()
+        public Guid GetUserId()
         {
-            return _httpContextAccessor.HttpContext?.User.Identity?.Name;
+            return Guid.Parse(_httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier) ?? throw new InvalidOperationException());
         }
     }
 }

@@ -4,7 +4,8 @@ namespace MusicQueues.Domain.Entities
 {
     public class QueueElement
     {
-        public QueueElement(string reference,
+        public QueueElement(Guid elementCreatorId,
+            string reference,
             string title = "Track",
             string artist = "Unknown artist",
             string album = "Unknown album",
@@ -12,9 +13,12 @@ namespace MusicQueues.Domain.Entities
             string comment = "",
             int track = 1,
             string genre = "",
-            int length = 0)
+            int length = 0,
+            string coverUrl = ""
+            )
         {
             Id = Guid.NewGuid();
+            ElementCreatorId = elementCreatorId;
             Reference = reference;
             Title = title;
             Artist = artist;
@@ -24,9 +28,11 @@ namespace MusicQueues.Domain.Entities
             Track = track;
             Genre = genre;
             Length = length;
+            CoverUrl = coverUrl;
         }
         
         public Guid Id { get; }
+        public Guid ElementCreatorId { get; }
         public string Reference { get; }
         public string Title { get; }
         public string Artist { get; }
@@ -36,5 +42,6 @@ namespace MusicQueues.Domain.Entities
         public int Track { get; }
         public string Genre { get; }
         public int Length { get; }
+        public string CoverUrl { get; }
     }
 }

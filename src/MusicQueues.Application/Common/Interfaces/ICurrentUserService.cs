@@ -1,7 +1,9 @@
-﻿namespace MusicQueues.Application.Common.Interfaces
+﻿using System;
+
+namespace MusicQueues.Application.Common.Interfaces
 {
     public interface ICurrentUserService
     {
-        string GetUserId();
+        Guid GetUserId();
     }
 }

@@ -14,16 +14,18 @@ namespace MusicQueues.Api.Services
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public string GetUserId()
+        public Guid GetUserId()
         {
             if (_httpContextAccessor.HttpContext.Request.Cookies.ContainsKey(CookieName))
             {
-                return _httpContextAccessor.HttpContext?.Request.Cookies[CookieName];
+                return Guid.Parse(_httpContextAccessor.HttpContext?.Request.Cookies[CookieName] ?? throw new InvalidOperationException());
             }
-
-            var userId = Guid.NewGuid().ToString();
-            _httpContextAccessor.HttpContext.Response.Cookies.Append(CookieName, userId);
-            return userId;
+            else
+            {
+                var userId = Guid.NewGuid();
+                _httpContextAccessor.HttpContext.Response.Cookies.Append(CookieName, userId.ToString());
+                return userId;
+            }
         }
     }
 }

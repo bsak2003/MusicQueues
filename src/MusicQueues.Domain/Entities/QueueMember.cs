@@ -5,22 +5,20 @@ namespace MusicQueues.Domain.Entities
 {
     public class QueueMember
     {
-        private MemberRole _role;
-
         public QueueMember(string reference, MemberRole role)
         {
             Id = Guid.NewGuid();
             Reference = reference;
-            _role = role;
+            Role = role;
         }
         
         public Guid Id { get; }
         public string Reference { get; }
-        public MemberRole Role => _role;
-        
+        public MemberRole Role { get; private set; }
+
         public void UpdateRole(MemberRole role)
         {
-            _role = role;
+            Role = role;
         }
     }
 }
