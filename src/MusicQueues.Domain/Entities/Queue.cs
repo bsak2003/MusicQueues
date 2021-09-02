@@ -9,16 +9,18 @@ namespace MusicQueues.Domain.Entities
         private readonly List<QueueElement> _elements = new();
         private readonly List<QueueMember> _members = new();
         
-        public Queue(Platform platform)
+        public Queue(Platform platform, string title = "", string description = "")
         {
             Id = Guid.NewGuid();
             Platform = platform;
+            Title = title;
+            Description = description;
         }
         
         public Guid Id { get; }
         public Platform Platform { get; }
-        public string Title { get; private set; } = string.Empty;
-        public string Description { get; private set; } = string.Empty;
+        public string Title { get; private set; }
+        public string Description { get; private set; }
         public IEnumerable<QueueElement> Elements => _elements;
         public IEnumerable<QueueMember> Members => _members;
 

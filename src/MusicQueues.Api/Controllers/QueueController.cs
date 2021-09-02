@@ -33,9 +33,9 @@ namespace MusicQueues.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<Guid> CreateQueue()
+        public async Task<Guid> CreateQueue(QueueModel model)
         {
-            return await _mediator.Send(new CreateQueue(Platform.Dummy));
+            return await _mediator.Send(new CreateQueue(Platform.Dummy, model.Title, model.Description));
         }
 
         [HttpDelete("{id:guid}")]

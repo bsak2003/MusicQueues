@@ -21,7 +21,7 @@ namespace MusicQueues.Application.Queues.Commands.CreateQueue
 
         public async Task<Guid> Handle(CreateQueue request, CancellationToken cancellationToken)
         {
-            var queue = new Queue(request.Platform);
+            var queue = new Queue(request.Platform, request.Title, request.Description);
             queue.AddMember(new QueueMember(_currentUserService.GetUserId(), MemberRole.Owner));
             await _queueRepository.Create(queue);
             return queue.Id;

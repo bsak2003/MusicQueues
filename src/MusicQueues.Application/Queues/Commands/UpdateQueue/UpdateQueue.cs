@@ -1,15 +1,19 @@
-﻿using MediatR;
-using MusicQueues.Domain.Entities;
+﻿using System;
+using MediatR;
 
 namespace MusicQueues.Application.Queues.Commands.UpdateQueue
 {
     public class UpdateQueue : IRequest
     {
-        public UpdateQueue(Queue queue)
+        public UpdateQueue(Guid id, string title = "", string description = "")
         {
-            Queue = queue;
+            Id = id;
+            Title = title;
+            Description = description;
         }
 
-        public Queue Queue { get; } 
+        public Guid Id { get; }
+        public string Title { get; }
+        public string Description { get; }
     }
 }
