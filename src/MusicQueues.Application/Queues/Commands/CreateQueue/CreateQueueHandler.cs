@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
@@ -12,18 +14,25 @@ namespace MusicQueues.Application.Queues.Commands.CreateQueue
     {
         private readonly ICurrentUserService _currentUserService;
         private readonly IRepository<Queue> _queueRepository;
+        private readonly IEnumerable<IMediaPlayer> _mediaPlayers;
 
-        public CreateQueueHandler(ICurrentUserService currentUserService, IRepository<Queue> queueRepository)
+        public CreateQueueHandler(ICurrentUserService currentUserService, IRepository<Queue> queueRepository, IEnumerable<IMediaPlayer> mediaPlayers)
         {
             _currentUserService = currentUserService;
             _queueRepository = queueRepository;
+            _mediaPlayers = mediaPlayers;
         }
 
         public async Task<Guid> Handle(CreateQueue request, CancellationToken cancellationToken)
         {
             var queue = new Queue(request.Platform, request.Title, request.Description);
             queue.AddMember(new QueueMember(_currentUserService.GetUserId(), MemberRole.Owner));
+            
+            var mp = _mediaPlayers.First(x => x.Platform == request.Platform);
+            mp.QueueCreated(queue);
+            
             await _queueRepository.Create(queue);
+            
             return queue.Id;
         }
     }
