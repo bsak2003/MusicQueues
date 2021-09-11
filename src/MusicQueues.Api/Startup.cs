@@ -5,6 +5,7 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting.Server.Features;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -46,7 +47,7 @@ namespace MusicQueues.Api
             services.AddApiServices();
         }
         
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
             if (env.IsDevelopment())
             {
@@ -64,6 +65,10 @@ namespace MusicQueues.Api
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 
             app.UseApiServices();
+            
+            logger.LogInformation("Open " +
+                                  $"{app.ServerFeatures.Get<IServerAddressesFeature>().Addresses.FirstOrDefault()}/swagger" +
+                                  " for Swagger UI!");
         }
     }
 }
