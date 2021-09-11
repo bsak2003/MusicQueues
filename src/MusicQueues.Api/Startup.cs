@@ -64,6 +64,7 @@ namespace MusicQueues.Api
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 
+            app.UseInfrastructure();
             app.UseApiServices();
             
             logger.LogInformation("Open " +

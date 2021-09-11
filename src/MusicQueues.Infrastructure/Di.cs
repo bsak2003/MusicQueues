@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using MusicQueues.Infrastructure.Hangfire;
 using MusicQueues.Infrastructure.MediaPlayer.DummyMediaPlayer;
 using MusicQueues.Infrastructure.Persistence.DummyQueueRepository;
 
@@ -10,7 +12,14 @@ namespace MusicQueues.Infrastructure
         {
             services.AddDummyQueueRepository();
             services.AddDummyMediaPlayer();
+            services.AddHangfireTasks();
             return services;
+        }
+
+        public static IApplicationBuilder UseInfrastructure(this IApplicationBuilder app)
+        {
+            app.UseHangfireTasks();
+            return app;
         }
     }
 }

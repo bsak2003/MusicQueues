@@ -9,4 +9,9 @@
       <ProjectReference Include="..\MusicQueues.Domain\MusicQueues.Domain.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Hangfire" Version="1.7.25" />
+      <PackageReference Include="Hangfire.MemoryStorage" Version="1.7.0" />
+    </ItemGroup>
+
 </Project>
