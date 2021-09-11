@@ -2,11 +2,12 @@
 using System.Threading.Tasks;
 using MediatR;
 using MusicQueues.Application.Common.Interfaces;
+using MusicQueues.Application.Queues.Queries.Common;
 using MusicQueues.Domain.Entities;
 
 namespace MusicQueues.Application.Queues.Queries.ReadQueueById
 {
-    public class ReadQueueByIdHandler : IRequestHandler<ReadQueueById, Queue>
+    public class ReadQueueByIdHandler : IRequestHandler<ReadQueueById, QueueDto>
     {
         private readonly IRepository<Queue> _queueRepository;
 
@@ -15,9 +16,10 @@ namespace MusicQueues.Application.Queues.Queries.ReadQueueById
             _queueRepository = queueRepository;
         }
 
-        public Task<Queue> Handle(ReadQueueById request, CancellationToken cancellationToken)
+        public async Task<QueueDto> Handle(ReadQueueById request, CancellationToken cancellationToken)
         {
-            return _queueRepository.ReadById(request.Id);
+            var queue = await _queueRepository.ReadById(request.Id);
+            return new QueueDto(queue);
         }
     }
 }

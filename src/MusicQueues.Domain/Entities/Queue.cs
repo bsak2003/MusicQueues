@@ -21,7 +21,7 @@ namespace MusicQueues.Domain.Entities
         public Platform Platform { get; }
         public string Title { get; private set; }
         public string Description { get; private set; }
-        public IEnumerable<QueueElement> Elements => _elements;
+        public IList<QueueElement> Elements => _elements;
         public IEnumerable<QueueMember> Members => _members;
 
         public void UpdateTitle(string title)
@@ -38,7 +38,7 @@ namespace MusicQueues.Domain.Entities
         {
             if (index == -1)
             {
-                index = _elements.Count - 1;
+                index = _elements.Count;
             }
 
             _elements.Insert(index, element);

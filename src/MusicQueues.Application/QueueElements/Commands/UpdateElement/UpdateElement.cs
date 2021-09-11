@@ -3,9 +3,9 @@ using MediatR;
 
 namespace MusicQueues.Application.QueueElements.Commands.UpdateElement
 {
-    public class MoveElement : IRequest
+    public class UpdateElement : IRequest
     {
-        public MoveElement(Guid queueId, Guid elementId, int newPosition)
+        public UpdateElement(Guid queueId, Guid elementId, int newPosition)
         {
             QueueId = queueId;
             ElementId = elementId;
