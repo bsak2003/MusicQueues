@@ -1,4 +1,5 @@
 ﻿using System;
+using MediatR;
 using Microsoft.Extensions.Logging;
 using MusicQueues.Application.Common.Interfaces;
 using MusicQueues.Domain.Entities;
@@ -9,7 +10,7 @@ namespace MusicQueues.Infrastructure.MediaPlayer.DummyMediaPlayer
     public class DummyMediaPlayer : IMediaPlayer
     {
         private readonly ILogger<DummyMediaPlayer> _logger;
-            public DummyMediaPlayer(ILogger<DummyMediaPlayer> logger)
+        public DummyMediaPlayer(ILogger<DummyMediaPlayer> logger, IMediator mediator)
         {
             _logger = logger;
         }
