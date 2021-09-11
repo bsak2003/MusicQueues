@@ -18,11 +18,8 @@ namespace MusicQueues.Application.Queues.Commands.UpdateQueue
         public async Task<Unit> Handle(UpdateQueue request, CancellationToken cancellationToken)
         {
             var queue = await _queueRepository.ReadById(request.Id);
-            
-            if(string.IsNullOrWhiteSpace(request.Title))
-                queue.UpdateTitle(request.Title);
-            if(string.IsNullOrWhiteSpace(request.Description))
-                queue.UpdateDescription(request.Description);
+            queue.UpdateTitle(request.Title);
+            queue.UpdateDescription(request.Description);
 
             await _queueRepository.Update(queue);
             return Unit.Value;
