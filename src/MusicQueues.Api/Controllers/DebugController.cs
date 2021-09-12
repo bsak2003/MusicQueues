@@ -9,7 +9,7 @@ using MusicQueues.Domain.Enums;
 namespace MusicQueues.Api.Controllers
 {
     [ApiController]
-    [Route("dbg")]
+    [Route("debug")]
     public class DebugController : ControllerBase
     {
         private readonly IMediator _mediator;

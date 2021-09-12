@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Hangfire;
 using Microsoft.Extensions.Logging;
 using MusicQueues.Application.Common.Interfaces;
-using MusicQueues.Domain.Entities;
 using MusicQueues.Domain.Enums;
 
 namespace MusicQueues.Infrastructure.MediaPlayer.DummyMediaPlayer
@@ -28,13 +26,24 @@ namespace MusicQueues.Infrastructure.MediaPlayer.DummyMediaPlayer
 
         public void StopPlayback(Guid queueId)
         {
+            _logger.LogInformation($"Stopped playback of queue {queueId}");
+            
             var api = JobStorage.Current.GetMonitoringApi();
-            var jobId = api.ProcessingJobs(0, int.MaxValue)
+
+            var processingJobs = api.ProcessingJobs(0, int.MaxValue)
                 .Where(x => x.Value.Job.Type == typeof(PlayerBackgroundTask))
                 .Where(x => x.Value.Job.Args.Contains(queueId))
-                .Select(x => x.Key)
-                .First();
-            BackgroundJob.Delete(jobId);
+                .Select(x => x.Key);
+
+            var enqueuedJobs = api.EnqueuedJobs("default", 0, int.MaxValue)
+                .Where(x => x.Value.Job.Type == typeof(PlayerBackgroundTask))
+                .Where(x => x.Value.Job.Args.Contains(queueId))
+                .Select(x => x.Key);
+
+            foreach (var job in Enumerable.Concat(processingJobs, enqueuedJobs))
+            {
+                BackgroundJob.Delete(job);
+            }
         }
     }
 }
