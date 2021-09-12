@@ -11,6 +11,8 @@ using MusicQueues.Application.QueueMembers.Commands.DeleteMember;
 using MusicQueues.Application.QueueMembers.Commands.UpdateMember;
 using MusicQueues.Application.Queues.Commands.CreateQueue;
 using MusicQueues.Application.Queues.Commands.DeleteQueue;
+using MusicQueues.Application.Queues.Commands.PlayQueue;
+using MusicQueues.Application.Queues.Commands.StopQueue;
 using MusicQueues.Application.Queues.Commands.UpdateQueue;
 using MusicQueues.Application.Queues.Queries.Common;
 using MusicQueues.Application.Queues.Queries.ReadQueueById;
@@ -88,6 +90,18 @@ namespace MusicQueues.Api.Controllers
         public async Task RemoveSong(Guid queueId, Guid songId)
         {
             await _mediator.Send(new DeleteElement(queueId, songId));
+        }
+
+        [HttpPost("{queueId:guid}/play")]
+        public async Task PlayQueue(Guid queueId)
+        {
+            await _mediator.Send(new PlayQueue(queueId));
+        }
+
+        [HttpPost("{queueId:guid}/stop")]
+        public async Task StopQueue(Guid queueId)
+        {
+            await _mediator.Send(new StopQueue(queueId));
         }
     }
 }

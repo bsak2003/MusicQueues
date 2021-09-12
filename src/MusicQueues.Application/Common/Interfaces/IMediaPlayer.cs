@@ -13,5 +13,7 @@ namespace MusicQueues.Application.Common.Interfaces
         public void SongMoved(Guid queueId, Guid songId, int position);
         public void SongRemoved(Guid queueId, Guid songId);
         public void RefreshQueue(Queue queue);
+        public void StartPlayback(Guid queueId);
+        public void StopPlayback(Guid queueId);
     }
 }

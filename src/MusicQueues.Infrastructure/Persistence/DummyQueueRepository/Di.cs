@@ -6,11 +6,9 @@ namespace MusicQueues.Infrastructure.Persistence.DummyQueueRepository
 {
     public static class Di
     {
-        private static readonly DummyQueueRepository InMemoryQueueRepository = new();
-
         public static IServiceCollection AddDummyQueueRepository(this IServiceCollection services)
         {
-            services.AddSingleton<IRepository<Queue>>(InMemoryQueueRepository);
+            services.AddSingleton<IRepository<Queue>, DummyQueueRepository>();
             return services;
         }
     }
