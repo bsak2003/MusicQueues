@@ -23,7 +23,7 @@ namespace MusicQueues.Infrastructure.MediaPlayer.DummyMediaPlayer
         public void StartPlayback(Guid queueId)
         {
             _logger.LogInformation($"Started playback of queue {queueId}");
-            var jobId = BackgroundJob.Enqueue<PlayerBackgroundTask>(x => x.Play(queueId, CancellationToken.None));
+            BackgroundJob.Enqueue<PlayerBackgroundTask>(x => x.Play(queueId, CancellationToken.None));
         }
 
         public void StopPlayback(Guid queueId)

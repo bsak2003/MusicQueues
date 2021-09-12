@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using MediatR;
 using MusicQueues.Application.Common.Interfaces;
 using MusicQueues.Domain.Entities;
+using MusicQueues.Domain.Enums;
 
 namespace MusicQueues.Application.Queues.Commands.StopQueue
 {
@@ -23,7 +24,12 @@ namespace MusicQueues.Application.Queues.Commands.StopQueue
         {
             var queue = await _repository.ReadById(request.QueueId);
             var mp = _mediaPlayers.First(x => x.Platform == queue.Platform);
+            
+            queue.UpdateStatus(Status.Stopped);
+            
             mp.StopPlayback(queue.Id);
+            await _repository.Update(queue);
+            
             return Unit.Value;
         }
     }

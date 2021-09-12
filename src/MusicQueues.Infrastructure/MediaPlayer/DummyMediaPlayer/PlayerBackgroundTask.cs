@@ -13,13 +13,11 @@ namespace MusicQueues.Infrastructure.MediaPlayer.DummyMediaPlayer
     public class PlayerBackgroundTask
     {
         private readonly IMediator _mediator;
-        private readonly Random _rng;
         private readonly ILogger<PlayerBackgroundTask> _logger;
         
         public PlayerBackgroundTask(IMediator mediator, ILogger<PlayerBackgroundTask> logger)
         {
             _mediator = mediator;
-            _rng = new Random();
             _logger = logger;
         }
 
@@ -30,8 +28,8 @@ namespace MusicQueues.Infrastructure.MediaPlayer.DummyMediaPlayer
             
             if (element == null) return;
             
-            _logger.LogInformation($"Playing element {element.Id} from queue {queueId}");
-            await Task.Delay(_rng.Next(10000, 60000), cancellationToken);
+            _logger.LogInformation($"Playing element {element.Id} (${element.Title}) from queue {queueId} for ~10s");
+            await Task.Delay(10000, cancellationToken);
             
             if (cancellationToken.IsCancellationRequested) return;
             

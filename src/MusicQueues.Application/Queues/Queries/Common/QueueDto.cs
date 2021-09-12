@@ -14,6 +14,7 @@ namespace MusicQueues.Application.Queues.Queries.Common
             Platform = queue.Platform;
             Title = queue.Title;
             Description = queue.Description;
+            Status = queue.Status;
             Elements = new List<QueueElementDto>();
             Members = new List<QueueMemberDto>();
 
@@ -32,6 +33,7 @@ namespace MusicQueues.Application.Queues.Queries.Common
         public Platform Platform { get; }
         public string Title { get; }
         public string Description { get; }
+        public Status Status { get; }
         public List<QueueElementDto> Elements { get; }
         public List<QueueMemberDto> Members { get; }
     }
