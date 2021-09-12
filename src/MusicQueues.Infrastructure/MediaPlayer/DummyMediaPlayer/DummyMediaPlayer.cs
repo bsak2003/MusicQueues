@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using Hangfire;
 using Microsoft.Extensions.Logging;
@@ -10,6 +11,7 @@ namespace MusicQueues.Infrastructure.MediaPlayer.DummyMediaPlayer
 {
     public class DummyMediaPlayer : IMediaPlayer
     {
+        public static Dictionary<Guid, string> JobIds { get; } = new Dictionary<Guid, string>();
         private readonly ILogger<DummyMediaPlayer> _logger;
         public DummyMediaPlayer(ILogger<DummyMediaPlayer> logger)
         {
@@ -51,12 +53,14 @@ namespace MusicQueues.Infrastructure.MediaPlayer.DummyMediaPlayer
         public void StartPlayback(Guid queueId)
         {
             _logger.LogInformation($"Started playback of queue {queueId}");
-            BackgroundJob.Enqueue<PlayerBackgroundTask>(x => x.Play(queueId, CancellationToken.None));
+            var jobId = BackgroundJob.Enqueue<PlayerBackgroundTask>(x => x.Play(queueId, CancellationToken.None));
+            JobIds.Add(queueId, jobId);
         }
 
         public void StopPlayback(Guid queueId)
         {
-            throw new NotImplementedException();
+            BackgroundJob.Delete(JobIds[queueId]);
+            JobIds.Remove(queueId);
         }
     }
 }
