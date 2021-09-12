@@ -23,3 +23,19 @@ jobs:
         run: dotnet build 
       - name: Test
         run: dotnet test
+  build_and_push_docker:
+    name: Publishes docker image into repository.
+    if: ${{ github.event_name == 'push' }}
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Checkout master
+        uses: actions/checkout@v2
+      - name: Push docker image to GHCR.io
+        uses: elgohr/Publish-Docker-Github-Action@master
+        with:
+          registry: ghcr.io
+          name: ${{ github.repository }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          tag_names: true
