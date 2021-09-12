@@ -13,24 +13,20 @@ namespace MusicQueues.Application.QueueElements.Commands.AddElement
     {
         private readonly ICurrentUserService _currentUserService;
         private readonly IRepository<Queue> _queueRepository;
-        private readonly IEnumerable<IMediaPlayer> _mediaPlayers;
 
-        public AddElementHandler(ICurrentUserService currentUserService, IRepository<Queue> queueRepository, IEnumerable<IMediaPlayer> mediaPlayers)
+
+        public AddElementHandler(ICurrentUserService currentUserService, IRepository<Queue> queueRepository)
         {
             _currentUserService = currentUserService;
             _queueRepository = queueRepository;
-            _mediaPlayers = mediaPlayers;
         }
         
         public async Task<Guid> Handle(AddElement request, CancellationToken cancellationToken)
         {
             var element = new QueueElement(_currentUserService.GetUserId(), request.Reference, request.Title);
             var queue = await _queueRepository.ReadById(request.QueueId);
-            var mp = _mediaPlayers.First(x => x.Platform == queue.Platform);
             
             queue.AddElement(element);
-            
-            mp.SongAdded(request.QueueId, element);
             await _queueRepository.Update(queue);
             
             return element.Id;

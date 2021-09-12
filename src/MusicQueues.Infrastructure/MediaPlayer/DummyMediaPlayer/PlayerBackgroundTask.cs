@@ -25,8 +25,6 @@ namespace MusicQueues.Infrastructure.MediaPlayer.DummyMediaPlayer
 
         public async Task Play(Guid queueId, CancellationToken cancellationToken)
         {
-            cancellationToken.ThrowIfCancellationRequested();
-            
             var queue = await _mediator.Send(new ReadQueueById(queueId), cancellationToken);
             var element = queue.Elements.FirstOrDefault();
             
@@ -38,8 +36,7 @@ namespace MusicQueues.Infrastructure.MediaPlayer.DummyMediaPlayer
             if (cancellationToken.IsCancellationRequested) return;
             
             await _mediator.Send(new DeleteElement(queueId, element.Id), cancellationToken);
-            var jobId = BackgroundJob.Enqueue<PlayerBackgroundTask>(x => x.Play(queueId, cancellationToken));
-            DummyMediaPlayer.JobIds[queueId] = jobId;
+            BackgroundJob.Enqueue<PlayerBackgroundTask>(x => x.Play(queueId, cancellationToken));
         }
     }
 }
