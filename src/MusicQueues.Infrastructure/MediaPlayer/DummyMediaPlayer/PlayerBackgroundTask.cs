@@ -6,6 +6,7 @@ using Hangfire;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using MusicQueues.Application.QueueElements.Commands.DeleteElement;
+using MusicQueues.Application.Queues.Commands.StopQueue;
 using MusicQueues.Application.Queues.Queries.ReadQueueById;
 
 namespace MusicQueues.Infrastructure.MediaPlayer.DummyMediaPlayer
@@ -25,10 +26,14 @@ namespace MusicQueues.Infrastructure.MediaPlayer.DummyMediaPlayer
         {
             var queue = await _mediator.Send(new ReadQueueById(queueId), cancellationToken);
             var element = queue.Elements.FirstOrDefault();
+
+            if (element == null)
+            {
+                await _mediator.Send(new StopQueue(queueId), cancellationToken);
+                return;
+            }
             
-            if (element == null) return;
-            
-            _logger.LogInformation($"Playing element {element.Id} (${element.Title}) from queue {queueId} for ~10s");
+            _logger.LogInformation($"Playing element {element.Id} ({element.Title}) from queue {queueId} for ~10s");
             await Task.Delay(10000, cancellationToken);
             
             if (cancellationToken.IsCancellationRequested) return;
