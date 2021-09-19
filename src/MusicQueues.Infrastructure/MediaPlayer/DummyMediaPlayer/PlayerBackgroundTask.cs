@@ -41,5 +41,25 @@ namespace MusicQueues.Infrastructure.MediaPlayer.DummyMediaPlayer
             await _mediator.Send(new DeleteElement(queueId, element.Id), cancellationToken);
             BackgroundJob.Enqueue<PlayerBackgroundTask>(x => x.Play(queueId, cancellationToken));
         }
+
+        public static void Stop(Guid queueId)
+        {
+            var api = JobStorage.Current.GetMonitoringApi();
+
+            var processingJobs = api.ProcessingJobs(0, int.MaxValue)
+                .Where(x => x.Value.Job.Type == typeof(PlayerBackgroundTask))
+                .Where(x => x.Value.Job.Args.Contains(queueId))
+                .Select(x => x.Key);
+
+            var enqueuedJobs = api.EnqueuedJobs("default", 0, int.MaxValue)
+                .Where(x => x.Value.Job.Type == typeof(PlayerBackgroundTask))
+                .Where(x => x.Value.Job.Args.Contains(queueId))
+                .Select(x => x.Key);
+
+            foreach (var job in Enumerable.Concat(processingJobs, enqueuedJobs))
+            {
+                BackgroundJob.Delete(job);
+            }
+        }
     }
 }
