@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Threading;
 using Hangfire;
 using Microsoft.Extensions.Logging;
@@ -12,8 +11,8 @@ namespace MusicQueues.Infrastructure.MediaPlayer.DummyMediaPlayer
 {
     public class DummyControls : IPlayerControls
     {
-        private ILogger<DummyMediaPlayer> _logger;
-        private IRepository<Queue> _repository;
+        private readonly ILogger<DummyMediaPlayer> _logger;
+        private readonly IRepository<Queue> _repository;
 
         public DummyControls(ILogger<DummyMediaPlayer> logger, IRepository<Queue> repository)
         {

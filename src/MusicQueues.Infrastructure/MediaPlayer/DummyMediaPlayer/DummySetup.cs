@@ -10,7 +10,7 @@ namespace MusicQueues.Infrastructure.MediaPlayer.DummyMediaPlayer
 {
     public class DummySetup : IPlayerSetup
     {
-        private ILogger<DummyMediaPlayer> _logger;
+        private readonly ILogger<DummyMediaPlayer> _logger;
         private readonly IRepository<Queue> _repository;
 
         public DummySetup(ILogger<DummyMediaPlayer> logger, IRepository<Queue> repository)

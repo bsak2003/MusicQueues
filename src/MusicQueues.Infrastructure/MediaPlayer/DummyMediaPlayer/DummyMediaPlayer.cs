@@ -1,9 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Threading;
-using Hangfire;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using MusicQueues.Application.Common.Interfaces;
 using MusicQueues.Application.Common.Interfaces.MediaPlayers;
 using MusicQueues.Domain.Entities;
