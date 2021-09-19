@@ -18,12 +18,13 @@ namespace MusicQueues.Infrastructure.MediaPlayer.DummyMediaPlayer
         
         public PlayerBackgroundTask(IMediator mediator, ILogger<PlayerBackgroundTask> logger)
         {
-            _mediator = mediator;
+            _mediator = mediator; // TODO replace Mediator with IRepository
             _logger = logger;
         }
 
         public async Task Play(Guid queueId, CancellationToken cancellationToken)
         {
+            // TODO refactor
             var queue = await _mediator.Send(new ReadQueueById(queueId), cancellationToken);
             var element = queue.Elements.FirstOrDefault();
 
