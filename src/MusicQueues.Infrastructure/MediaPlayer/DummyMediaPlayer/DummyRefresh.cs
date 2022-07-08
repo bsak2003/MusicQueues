@@ -23,9 +23,10 @@ namespace MusicQueues.Infrastructure.MediaPlayer.DummyMediaPlayer
         
         public async Task Hold(Guid queueId)
         {
-            PlayerBackgroundTask.Stop(queueId);
-            
             var queue = await _repository.ReadById(queueId);
+            if (queue.Status != Status.Playing) return;
+            
+            PlayerBackgroundTask.Stop(queueId);
             queue.UpdateStatus(Status.OnHold);
             await _repository.Update(queue);
             
@@ -34,9 +35,10 @@ namespace MusicQueues.Infrastructure.MediaPlayer.DummyMediaPlayer
 
         public async Task Load(Guid queueId)
         {
-            BackgroundJob.Enqueue<PlayerBackgroundTask>(x => x.Play(queueId, CancellationToken.None));
-            
             var queue = await _repository.ReadById(queueId);
+            if (queue.Status != Status.OnHold) return;
+            
+            BackgroundJob.Enqueue<PlayerBackgroundTask>(x => x.Play(queueId, CancellationToken.None));
             queue.UpdateStatus(Status.Playing);
             await _repository.Update(queue);
             

@@ -19,7 +19,7 @@ namespace MusicQueues.Infrastructure.MediaPlayer.DummyMediaPlayer
              also an internal matter; in a proper IMediaPlayer probably packing in folders will be more suitable, 
              but for dummy a bunch of loose files is okay */
             Player = new DummySetup(logger, repository);
-            Playback = new DummyPlayback(logger, repository);
+            Playback = new DummyPlayback(logger);
             Controls = new DummyControls(logger, repository);
             Refresh = new DummyRefresh(logger, repository);
         }

@@ -13,33 +13,26 @@ namespace MusicQueues.Infrastructure.MediaPlayer.DummyMediaPlayer
     public class DummyPlayback : IMediaPlayback
     {
         private readonly ILogger<DummyMediaPlayer> _logger;
-        private readonly IRepository<Queue> _repository;
 
-        public DummyPlayback(ILogger<DummyMediaPlayer> logger, IRepository<Queue> repository)
+        public DummyPlayback(ILogger<DummyMediaPlayer> logger)
         {
             _logger = logger;
-            _repository = repository;
         }
         
-        public async Task Start(Guid queueId)
+        public Task Start(Guid queueId)
         {
-            var queue = await _repository.ReadById(queueId);
-            queue.UpdateStatus(Status.Playing);
-            await _repository.Update(queue);
-            
             BackgroundJob.Enqueue<PlayerBackgroundTask>(x => x.Play(queueId, CancellationToken.None));
             _logger.LogInformation($"Started playback of queue {queueId}");
+
+            return Task.CompletedTask;
         }
 
-        public async Task Stop(Guid queueId)
+        public Task Stop(Guid queueId)
         {
             PlayerBackgroundTask.Stop(queueId);
-            
-            var queue = await _repository.ReadById(queueId);
-            queue.UpdateStatus(Status.Stopped);
-            await _repository.Update(queue);
-            
             _logger.LogInformation($"Stopped playback of queue {queueId}");
+
+            return Task.CompletedTask;
         }
     }
 }

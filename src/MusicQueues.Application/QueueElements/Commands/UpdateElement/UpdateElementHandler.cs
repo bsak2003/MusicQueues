@@ -22,15 +22,16 @@ namespace MusicQueues.Application.QueueElements.Commands.UpdateElement
 
         public async Task<Unit> Handle(UpdateElement request, CancellationToken cancellationToken)
         {
+            var mp = await _selector.FromQueueId(request.QueueId);
+            await mp.Refresh.Hold(request.QueueId);
+            
             var queue = await _queueRepository.ReadById(request.QueueId);
-
-            await _selector.FromQueue(queue).Refresh.Hold(queue.Id);
 
             queue.MoveElement(queue.Elements.First(x => x.Id == request.ElementId), request.NewPosition);
             await _queueRepository.Update(queue);
-            
-            await _selector.FromQueue(queue).Refresh.Load(queue.Id);
 
+            await mp.Refresh.Load(request.QueueId);
+            
             return Unit.Value;
         }
     }
