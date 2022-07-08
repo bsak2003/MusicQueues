@@ -34,8 +34,8 @@ namespace MusicQueues.Infrastructure.MediaPlayer.DummyMediaPlayer
                 return;
             }
             
-            _logger.LogInformation($"Playing element {element.Id} ({element.Title}) from queue {queueId} for ~10s");
-            await Task.Delay(10000, cancellationToken);
+            _logger.LogInformation($"Playing element {element.Id} ({element.Title}) from queue {queueId} for ~30s");
+            await Task.Delay(30000, cancellationToken);
             
             if (cancellationToken.IsCancellationRequested) return;
             
