@@ -9,13 +9,13 @@ namespace MusicQueues.Domain.Entities
         private readonly List<QueueElement> _elements = new();
         private readonly List<QueueMember> _members = new();
         
-        public Queue(Platform platform, string title = "", string description = "", Status status = Status.Stopped)
+        public Queue(Platform platform, string title = "", string description = "")
         {
             Id = Guid.NewGuid();
             Platform = platform;
             Title = title;
             Description = description;
-            Status = status;
+            Status = Status.Created;
         }
         
         public Guid Id { get; }

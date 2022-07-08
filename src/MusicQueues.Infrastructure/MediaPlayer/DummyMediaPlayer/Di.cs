@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using MusicQueues.Application.Common.Interfaces;
+using MusicQueues.Application.Common.Interfaces.MediaPlayers;
 
 namespace MusicQueues.Infrastructure.MediaPlayer.DummyMediaPlayer
 {
