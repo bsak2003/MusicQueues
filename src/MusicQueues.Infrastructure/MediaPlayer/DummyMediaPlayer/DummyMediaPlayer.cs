@@ -6,7 +6,9 @@ using MusicQueues.Domain.Enums;
 
 namespace MusicQueues.Infrastructure.MediaPlayer.DummyMediaPlayer
 {
-    // TODO integrate & test
+    // TODO integrate & test => I guess we should only test every endpoint by hand, and then head to Spotify integration
+    // but at first, we need to create endpoints to some of MediaPlayer methods (such as Pause/Unpause, etc) and alter
+    // AddQueueElement behavior to include skipping;
     public class DummyMediaPlayer : IMediaPlayer
     {
         public DummyMediaPlayer(ILogger<DummyMediaPlayer> logger, IRepository<Queue> repository)
