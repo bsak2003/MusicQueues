@@ -3,34 +3,34 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Hangfire;
-using MediatR;
 using Microsoft.Extensions.Logging;
-using MusicQueues.Application.QueueElements.Commands.DeleteElement;
-using MusicQueues.Application.Queues.Commands.StopQueue;
-using MusicQueues.Application.Queues.Queries.ReadQueueById;
+using MusicQueues.Application.Common.Interfaces;
+using MusicQueues.Domain.Entities;
+using MusicQueues.Domain.Enums;
 
 namespace MusicQueues.Infrastructure.MediaPlayer.DummyMediaPlayer
 {
     public class PlayerBackgroundTask
     {
-        private readonly IMediator _mediator;
+        private readonly IRepository<Queue> _queueRepository;
         private readonly ILogger<PlayerBackgroundTask> _logger;
         
-        public PlayerBackgroundTask(IMediator mediator, ILogger<PlayerBackgroundTask> logger)
+        public PlayerBackgroundTask(IRepository<Queue> queueRepository, ILogger<PlayerBackgroundTask> logger)
         {
-            _mediator = mediator; // TODO replace Mediator with IRepository
+            _queueRepository = queueRepository;
             _logger = logger;
         }
 
         public async Task Play(Guid queueId, CancellationToken cancellationToken)
         {
-            // TODO refactor
-            var queue = await _mediator.Send(new ReadQueueById(queueId), cancellationToken);
+            // pending refactor anyway I guess
+            var queue = await _queueRepository.ReadById(queueId);
             var element = queue.Elements.FirstOrDefault();
 
-            if (element == null)
+            if (element is null)
             {
-                await _mediator.Send(new StopQueue(queueId), cancellationToken);
+                queue.UpdateStatus(Status.Stopped);
+                await _queueRepository.Update(queue);
                 return;
             }
             
@@ -39,7 +39,9 @@ namespace MusicQueues.Infrastructure.MediaPlayer.DummyMediaPlayer
             
             if (cancellationToken.IsCancellationRequested) return;
             
-            await _mediator.Send(new DeleteElement(queueId, element.Id), cancellationToken);
+            queue.RemoveElement(element);
+            await _queueRepository.Update(queue);
+
             BackgroundJob.Enqueue<PlayerBackgroundTask>(x => x.Play(queueId, cancellationToken));
         }
 
