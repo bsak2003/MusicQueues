@@ -11,9 +11,11 @@ namespace MusicQueues.Infrastructure.MediaPlayer.DummyMediaPlayer
     {
         public DummyMediaPlayer(ILogger<DummyMediaPlayer> logger, IRepository<Queue> repository)
         {
-            // TODO Internal Dependency Injection (should we use .NET Dependency Injection or just construct components in constructor?) 
-            // TODO Generic/specific logger? (now we pass ILogger<DummyMediaPlayer> everywhere but PlayerBackgroundTask) 
-            // TODO DummyMediaPlayer organization (pack components into folder or integrate them into single class - since it's only reference)
+            /* DI and organization (apart from IMediaPlayer) is purely internal matter; here we simply implement
+             every interface separately and instantiate them in a constructor, but a more complex solution may use
+             1st or 3rd party dependency injection scheme; logging is advised to use main class as template, but it's
+             also an internal matter; in a proper IMediaPlayer probably packing in folders will be more suitable, 
+             but for dummy a bunch of loose files is okay */
             Player = new DummySetup(logger, repository);
             Playback = new DummyPlayback(logger, repository);
             Controls = new DummyControls(logger, repository);
