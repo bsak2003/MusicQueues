@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace MusicQueues.Application.Common.Interfaces.MediaPlayers
 {
     public interface IPlayerControls
     {
-        public void Pause(Guid queueId);
-        public void Unpause(Guid queueId);
+        public Task Pause(Guid queueId);
+        public Task Unpause(Guid queueId);
     }
 }

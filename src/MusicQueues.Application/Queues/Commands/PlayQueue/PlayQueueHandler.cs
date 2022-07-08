@@ -27,7 +27,7 @@ namespace MusicQueues.Application.Queues.Commands.PlayQueue
 
             queue.UpdateStatus(Status.Playing);
             
-            _selector.FromQueue(queue).Playback.Start(queue.Id);
+            await _selector.FromQueue(queue).Playback.Start(queue.Id);
             await _repository.Update(queue);
 
             return Unit.Value;

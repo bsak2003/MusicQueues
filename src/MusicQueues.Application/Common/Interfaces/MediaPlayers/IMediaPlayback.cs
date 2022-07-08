@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace MusicQueues.Application.Common.Interfaces.MediaPlayers
 {
     public interface IMediaPlayback
     {
-        public void Start(Guid queueId);
-        public void Stop(Guid queueId);
+        public Task Start(Guid queueId);
+        public Task Stop(Guid queueId);
     }
 }

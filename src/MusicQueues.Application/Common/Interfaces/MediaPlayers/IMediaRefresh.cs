@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace MusicQueues.Application.Common.Interfaces.MediaPlayers
 {
     public interface IMediaRefresh
     {
-        public void Hold(Guid queueId);
-        public void Load(Guid queueId);
+        public Task Hold(Guid queueId);
+        public Task Load(Guid queueId);
     }
 }

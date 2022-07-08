@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Threading.Tasks;
 using Hangfire;
 using Microsoft.Extensions.Logging;
 using MusicQueues.Application.Common.Interfaces;
@@ -20,7 +21,7 @@ namespace MusicQueues.Infrastructure.MediaPlayer.DummyMediaPlayer
             _repository = repository;
         }
         
-        public async void Start(Guid queueId)
+        public async Task Start(Guid queueId)
         {
             var queue = await _repository.ReadById(queueId);
             queue.UpdateStatus(Status.Playing);
@@ -30,7 +31,7 @@ namespace MusicQueues.Infrastructure.MediaPlayer.DummyMediaPlayer
             _logger.LogInformation($"Started playback of queue {queueId}");
         }
 
-        public async void Stop(Guid queueId)
+        public async Task Stop(Guid queueId)
         {
             PlayerBackgroundTask.Stop(queueId);
             

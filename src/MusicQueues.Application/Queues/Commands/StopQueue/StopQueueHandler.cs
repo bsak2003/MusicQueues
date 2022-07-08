@@ -27,7 +27,7 @@ namespace MusicQueues.Application.Queues.Commands.StopQueue
 
             queue.UpdateStatus(Status.Stopped);
             
-            _selector.FromQueue(queue).Playback.Stop(queue.Id);
+            await _selector.FromQueue(queue).Playback.Stop(queue.Id);
             await _repository.Update(queue);
             
             return Unit.Value;

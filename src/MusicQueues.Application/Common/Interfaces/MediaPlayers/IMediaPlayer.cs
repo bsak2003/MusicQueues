@@ -5,7 +5,6 @@ namespace MusicQueues.Application.Common.Interfaces.MediaPlayers
 {
     public interface IMediaPlayer
     {
-        // TODO async void vs. async Task
         // TODO Queue vs queueId
         public Platform Platform { get; }
         public IPlayerSetup Player { get; }

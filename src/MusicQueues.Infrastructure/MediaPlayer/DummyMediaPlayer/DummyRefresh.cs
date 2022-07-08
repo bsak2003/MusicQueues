@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Threading.Tasks;
 using Hangfire;
 using Microsoft.Extensions.Logging;
 using MusicQueues.Application.Common.Interfaces;
@@ -20,7 +21,7 @@ namespace MusicQueues.Infrastructure.MediaPlayer.DummyMediaPlayer
             _repository = repository;
         }
         
-        public async void Hold(Guid queueId)
+        public async Task Hold(Guid queueId)
         {
             PlayerBackgroundTask.Stop(queueId);
             
@@ -31,7 +32,7 @@ namespace MusicQueues.Infrastructure.MediaPlayer.DummyMediaPlayer
             _logger.LogInformation($"Queue {queueId} put on hold");
         }
 
-        public async void Load(Guid queueId)
+        public async Task Load(Guid queueId)
         {
             BackgroundJob.Enqueue<PlayerBackgroundTask>(x => x.Play(queueId, CancellationToken.None));
             
