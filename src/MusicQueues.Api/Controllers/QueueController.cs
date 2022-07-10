@@ -12,6 +12,7 @@ using MusicQueues.Application.QueueMembers.Commands.UpdateMember;
 using MusicQueues.Application.Queues.Commands.CreateQueue;
 using MusicQueues.Application.Queues.Commands.DeleteQueue;
 using MusicQueues.Application.Queues.Commands.PlayQueue;
+using MusicQueues.Application.Queues.Commands.SetupQueue;
 using MusicQueues.Application.Queues.Commands.StopQueue;
 using MusicQueues.Application.Queues.Commands.UpdateQueue;
 using MusicQueues.Application.Queues.Queries.Common;
@@ -102,6 +103,13 @@ namespace MusicQueues.Api.Controllers
         public async Task StopQueue(Guid queueId)
         {
             await _mediator.Send(new StopQueue(queueId));
+        }
+
+        [HttpGet("{queueId:guid}/setup")]
+        public async Task<IActionResult> SetupQueue(Guid queueId)
+        {
+            var url = await _mediator.Send(new SetupQueue(queueId));
+            return Redirect(url.AbsoluteUri);
         }
     }
 }
