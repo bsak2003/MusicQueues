@@ -42,7 +42,7 @@ namespace MusicQueues.Api.Controllers
         [HttpPost]
         public async Task<Guid> CreateQueue(QueueModel model)
         {
-            return await _mediator.Send(new CreateQueue(Platform.Dummy, model.Title, model.Description));
+            return await _mediator.Send(new CreateQueue(model.Platform, model.Title, model.Description));
         }
 
         [HttpPut("{queueId:guid}")]

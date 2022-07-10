@@ -2,6 +2,7 @@
 {
     public enum Platform
     {
-        Dummy
+        Dummy,
+        Spotify
     }
 }
