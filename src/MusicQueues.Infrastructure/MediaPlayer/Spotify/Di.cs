@@ -11,6 +11,7 @@ public static class Di
     public static IServiceCollection AddSpotify(this IServiceCollection services)
     {
         services.AddSingleton<IRepository<SpotifyQueue>, SpotifyQueueRepository>();
+        services.AddTransient<SpotifyConfig>(); // TODO add template in appsettings.json
         
         services.AddTransient<SpotifyControls>();
         services.AddTransient<SpotifyPlayback>();
