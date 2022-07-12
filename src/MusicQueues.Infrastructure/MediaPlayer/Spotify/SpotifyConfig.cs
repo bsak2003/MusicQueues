@@ -1,8 +1,9 @@
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace MusicQueues.Infrastructure.MediaPlayer.Spotify;
 
-public class SpotifyConfig
+public class SpotifyConfig // TODO create interface
 {
     public SpotifyConfig(IConfiguration configuration)
     {
