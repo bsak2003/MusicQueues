@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using MusicQueues.Application.Common.Interfaces;
 using MusicQueues.Application.Common.Interfaces.MediaPlayers;
+using MusicQueues.Infrastructure.MediaPlayer.Spotify.MediaPlayer;
 using MusicQueues.Infrastructure.MediaPlayer.Spotify.Persistence;
 using MusicQueues.Infrastructure.MediaPlayer.Spotify.Services;
 
@@ -12,7 +13,10 @@ public static class Di
     {
         services.AddSingleton<IRepository<SpotifyQueue>, SpotifyQueueRepository>();
         services.AddTransient<SpotifyConfig>();
-        
+        services.AddTransient<ICallbackHandler, SpotifyCallbackHandler>();
+        services.AddTransient<ICallbackHandler, SpotifyRefreshToken>();
+        services.AddTransient<RefreshSpotifyTokens>();
+
         services.AddTransient<SpotifyControls>();
         services.AddTransient<SpotifyPlayback>();
         services.AddTransient<SpotifyRefresh>();

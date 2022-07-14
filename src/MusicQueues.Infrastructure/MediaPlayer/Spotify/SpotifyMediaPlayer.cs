@@ -1,7 +1,7 @@
 using System;
 using MusicQueues.Application.Common.Interfaces.MediaPlayers;
 using MusicQueues.Domain.Enums;
-using MusicQueues.Infrastructure.MediaPlayer.Spotify.Services;
+using MusicQueues.Infrastructure.MediaPlayer.Spotify.MediaPlayer;
 
 namespace MusicQueues.Infrastructure.MediaPlayer.Spotify;
 
