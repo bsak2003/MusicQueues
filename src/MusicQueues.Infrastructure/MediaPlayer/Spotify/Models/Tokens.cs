@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace MusicQueues.Infrastructure.MediaPlayer.Spotify.Requests;
+namespace MusicQueues.Infrastructure.MediaPlayer.Spotify.Models;
 
 public class Tokens
 {

@@ -14,9 +14,12 @@ public static class Di
         services.AddSingleton<IRepository<SpotifyQueue>, SpotifyQueueRepository>();
         services.AddTransient<SpotifyConfig>();
         services.AddTransient<ICallbackHandler, SpotifyCallbackHandler>();
-        services.AddTransient<ICallbackHandler, SpotifyRefreshToken>();
         services.AddTransient<RefreshSpotifyTokens>();
 
+        services.AddTransient<AuthApiClient>();
+        services.AddTransient<ApiClient>();
+        services.AddTransient<SystemQueueStatus>();
+            
         services.AddTransient<SpotifyControls>();
         services.AddTransient<SpotifyPlayback>();
         services.AddTransient<SpotifyRefresh>();

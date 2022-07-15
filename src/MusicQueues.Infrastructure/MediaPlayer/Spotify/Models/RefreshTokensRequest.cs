@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 
-namespace MusicQueues.Infrastructure.MediaPlayer.Spotify.Requests;
+namespace MusicQueues.Infrastructure.MediaPlayer.Spotify.Models;
 
-public class RefreshTokens
+public class RefreshTokensRequest
 {
     public string GrantType { get; set; }
     public string RefreshToken { get; set; }
 
-    public RefreshTokens(string refreshToken)
+    public RefreshTokensRequest(string refreshToken)
     {
         GrantType = "refresh_token";
         RefreshToken = refreshToken;

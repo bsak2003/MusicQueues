@@ -12,6 +12,8 @@ namespace MusicQueues.Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
+            services.AddHttpClient();
+            
             services.AddDummyQueueRepository();
             services.AddDummyMediaPlayer();
             services.AddSpotify();

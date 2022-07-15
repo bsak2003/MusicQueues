@@ -8,7 +8,7 @@ public class SpotifyQueue
     public SpotifyQueue(Guid id)
     {
         QueueId = id;
-        State = Guid.NewGuid().ToString();
+        NewState();
     }
     
     public Guid QueueId { get; }

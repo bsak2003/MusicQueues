@@ -1,7 +1,10 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace MusicQueues.Infrastructure.MediaPlayer.Spotify.Requests;
+namespace MusicQueues.Infrastructure.MediaPlayer.Spotify.Models;
 
 public class AuthorizationRequest
 {
@@ -22,10 +25,15 @@ public class AuthorizationRequest
         State = state;
     }
 
-    public Uri GetUri()
+    public IEnumerable<KeyValuePair<string, string>> ToKeyValuePairs()
     {
-        const string spotify = "https://accounts.spotify.com/authorize?";
-        var query = $"response_type={ResponseType}&client_id={ClientId}&scope={Scope}&redirect_uri={RedirectUri}&state={State}";
-        return new Uri(spotify + query);
+        return new KeyValuePair<string, string>[]
+        {
+            new("response_type", ResponseType),
+            new("client_id", ClientId),
+            new("scope", Scope),
+            new("redirect_uri", RedirectUri),
+            new("state", State)
+        };
     }
 }
